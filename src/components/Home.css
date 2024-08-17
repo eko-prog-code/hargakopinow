@@ -1,0 +1,189 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+h1, h2 {
+  text-align: center;
+  color: #333;
+}
+
+label {
+  display: block;
+  margin: 10px 0 5px;
+  font-weight: bold;
+}
+
+input[type="text"], input[type="number"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+button {
+  padding: 10px 20px;
+  margin: 5px 0;
+  border: none;
+  border-radius: 4px;
+  background-color: #28a745;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #218838;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+}
+
+th, td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+thead {
+  background-color: #f2f2f2;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.header-info {
+  text-align: left;
+  margin-bottom: 20px;
+}
+
+/* Mengatur kontainer summary untuk menggunakan Flexbox */
+.summary {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px; /* Jarak antara kartu */
+  margin-top: 20px;
+}
+
+/* Mengatur gaya kartu summary-item */
+.summary-item {
+  flex: 1; /* Membuat semua kartu memiliki lebar yang sama */
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+/* Mengatur gaya h2 dan span di dalam kartu summary-item */
+.summary-item h2 {
+  margin: 10px 0;
+  font-size: 18px;
+  color: #444;
+}
+
+.summary-item span {
+  color: #000;
+  font-weight: bold;
+  color: #28a745;
+}
+
+/* Mengatur input di dalam kartu summary-item */
+.summary-item input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 768px) {
+  /* Tambahkan gaya ini untuk layar ukuran mobile */
+  table {
+    width: 100%;
+    font-size: 12px; /* Mengurangi ukuran font untuk konten tabel */
+  }
+
+  th, td {
+    padding: 6px; /* Mengurangi padding pada sel-sel tabel */
+  }
+
+  .summary-item h2 {
+    font-size: 14px; /* Mengurangi ukuran font untuk konten summary-item */
+  }
+
+  .summary-item span {
+    font-size: 14px; /* Mengurangi ukuran font untuk konten summary-item */
+  }
+
+  /* Atur card summary-item menjadi vertikal */
+  .summary {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+@media (max-width: 480px) {
+  h1, h2 {
+    font-size: 1.5em;
+  }
+
+  input[type="text"], input[type="number"] {
+    padding: 6px;
+  }
+
+  button {
+    padding: 6px 12px;
+  }
+
+  th, td {
+    padding: 6px;
+  }
+}
+
+.fixed-bottom-right {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 70px; /* Adjust as necessary */
+  height: 70px; /* Adjust as necessary */
+  cursor: pointer;
+  z-index: 1000;
+}
+
+.button-save {
+  background-color: green;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.button-download {
+  background-color: blue;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.button-container {
+  margin-top: 20px;
+}
