@@ -1,0 +1,57 @@
+/* Home.css */
+.home-container {
+    text-align: center;
+    margin-top: 50px;
+}
+
+.home-title {
+    font-size: 2em;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.icon-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.icon {
+    cursor: pointer;
+    width: 150px; /* Ukuran default ikon lebih besar */
+    height: 150px; /* Ukuran default ikon lebih besar */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.icon:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 1024px) {
+    .icon {
+        width: 120px; /* Ukuran ikon untuk tablet */
+        height: 120px;
+    }
+}
+
+@media (max-width: 768px) {
+    .icon {
+        width: 110px; /* Ukuran ikon sedikit lebih besar untuk tablet kecil */
+        height: 110px;
+    }
+}
+
+@media (max-width: 480px) {
+    .home-title {
+        font-size: 2em;
+    }
+
+    .icon {
+        width: 100px; /* Ukuran ikon lebih besar untuk smartphone */
+        height: 100px;
+    }
+}

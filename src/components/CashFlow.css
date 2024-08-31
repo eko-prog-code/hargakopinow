@@ -1,0 +1,171 @@
+/* CashFlow.css */
+
+/* Existing styles */
+
+.cashflow-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+h1 {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #007bff;
+}
+
+.filter-label {
+    font-weight: bold;
+    margin-right: 10px;
+    color: #555;
+}
+
+.category-dropdown {
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    outline: none;
+    margin-bottom: 20px;
+    background-color: #f4f4f9;
+    color: #333;
+    transition: all 0.3s ease;
+}
+
+.category-dropdown:focus {
+    border-color: #007bff;
+    background-color: #fff;
+}
+
+.transactions-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-size: 0.9rem;
+    overflow-x: auto; /* Ensure table can scroll horizontally */
+}
+
+.transactions-table th,
+.transactions-table td {
+    border: 1px solid #ddd;
+    padding: 12px 15px;
+    text-align: left;
+}
+
+.transactions-table th {
+    background-color: #007bff;
+    color: #fff;
+    font-weight: bold;
+}
+
+.transactions-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.transactions-table tr:hover {
+    background-color: #eaf1ff;
+    transition: background-color 0.3s ease;
+}
+
+.transactions-table td {
+    color: #555;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .cashflow-container {
+        padding: 15px;
+    }
+
+    .transactions-table {
+        font-size: 0.8rem;
+        overflow-x: auto; /* Enable horizontal scrolling */
+        display: block; /* Make table block-level for overflow scrolling */
+    }
+
+    .transactions-table th, .transactions-table td {
+        padding: 10px 12px;
+        white-space: nowrap; /* Prevent wrapping */
+    }
+
+    .category-dropdown {
+        width: 100%;
+        margin-bottom: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .transactions-table th, .transactions-table td {
+        padding: 8px 10px;
+    }
+
+    h1 {
+        font-size: 1.5rem;
+    }
+}
+
+/* Existing styles */
+
+/* Detail icon styling */
+.detail-icon {
+    background: none;
+    border: none;
+    color: #007bff;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.detail-icon:hover {
+    color: #0056b3;
+}
+
+/* Modal styles */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 600px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    position: relative;
+}
+
+.modal-content h2 {
+    margin-top: 0;
+}
+
+.close-modal {
+    background-color: #ff4800;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 4px;
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    transition: background-color 0.3s ease;
+}
+
+.close-modal:hover {
+    background-color: #fd0101;
+}
