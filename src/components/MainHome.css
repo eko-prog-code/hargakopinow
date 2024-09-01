@@ -1,13 +1,23 @@
-/* Home.css */
 .home-container {
     text-align: center;
-    margin-top: 50px;
+    margin-top: 10px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.home-header {
+    font-size: 2.5em;
+    font-weight: bold;
+    color: #444;
+    margin-bottom: 10px;
 }
 
 .home-title {
     font-size: 2em;
     font-weight: bold;
-    color: #333;
+    color: #666;
     margin-bottom: 20px;
 }
 
@@ -21,37 +31,127 @@
 
 .icon {
     cursor: pointer;
-    width: 150px; /* Ukuran default ikon lebih besar */
-    height: 150px; /* Ukuran default ikon lebih besar */
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    object-fit: cover;
 }
 
 .icon:hover {
     transform: scale(1.1);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
-@media (max-width: 1024px) {
-    .icon {
-        width: 120px; /* Ukuran ikon untuk tablet */
-        height: 120px;
-    }
+.harga-robusta-container {
+    margin-top: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-@media (max-width: 768px) {
-    .icon {
-        width: 110px; /* Ukuran ikon sedikit lebih besar untuk tablet kecil */
-        height: 110px;
-    }
+.harga-robusta-container h3 {
+    margin-bottom: 10px;
+    color: #333;
 }
 
-@media (max-width: 480px) {
-    .home-title {
-        font-size: 2em;
-    }
+.harga-text {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #333;
+}
 
-    .icon {
-        width: 100px; /* Ukuran ikon lebih besar untuk smartphone */
-        height: 100px;
-    }
+.formula {
+    font-size: 1em;
+    color: #666;
+}
+
+.sumber-informasi {
+    margin-top: 20px;
+}
+
+.sumber-informasi p {
+    font-size: 1em;
+    color: #555;
+}
+
+.sumber-informasi a {
+    color: #007BFF;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.sumber-informasi a:hover {
+    text-decoration: underline;
+}
+
+.shopee-prices-container {
+    margin-top: 30px;
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    position: relative;
+}
+
+.shopee-prices-container h3 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.shopee-prices-carousel {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    white-space: nowrap;
+}
+
+.shopee-price-card {
+    min-width: 250px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    flex-shrink: 0;
+    margin-right: 15px;
+}
+
+.shopee-price-card p {
+    margin: 5px 0;
+}
+
+.shopee-link {
+    color: #007BFF;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.shopee-link:hover {
+    text-decoration: underline;
+}
+
+.scroll-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 1.5em;
+    z-index: 10;
+}
+
+.scroll-button.left {
+    left: 10px;
+}
+
+.scroll-button.right {
+    right: 10px;
 }
