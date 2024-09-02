@@ -1,13 +1,15 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { ref, push, onValue } from 'firebase/database';
+import { storage, database } from '../firebase/firebase'; // Ensure you import storage
 import { useNavigate } from 'react-router-dom';
-import { database } from '../firebase/firebase';
 import { useUser } from '../context/UserContext';
 import { Sheet } from 'react-modal-sheet';
 import './Community.css';
+import { getDownloadURL, ref as storageRef, uploadBytes } from 'firebase/storage';
 
 const Community = () => {
     const [status, setStatus] = useState('');
+    const [selectedImage, setSelectedImage] = useState(null);
     const [statuses, setStatuses] = useState([]);
     const [comments, setComments] = useState([]);
     const [users, setUsers] = useState({});
@@ -17,14 +19,7 @@ const Community = () => {
     const navigate = useNavigate();
     const { user: currentUser } = useUser();
 
-    // Fetch statuses and users once when component mounts
     useEffect(() => {
-        if (!currentUser) {
-            navigate('/login');
-            return;
-        }
-
-        // Fetch statuses from Firebase
         const statusRef = ref(database, 'statuses');
         onValue(statusRef, (snapshot) => {
             const data = snapshot.val();
@@ -35,57 +30,70 @@ const Community = () => {
             }
         });
 
-        // Fetch users from Firebase
         const usersRef = ref(database, 'users');
         onValue(usersRef, (snapshot) => {
             const data = snapshot.val();
             if (data) {
                 setUsers(data);
-                console.log('Fetched users:', data); // Log all users
             } else {
                 console.warn('No users found');
             }
         });
-    }, [currentUser, navigate]);
+    }, []);
 
     const handleStatusChange = (e) => {
         setStatus(e.target.value);
     };
 
-    const handlePostStatus = useCallback(() => {
-        if (status.trim() === '') return;
-
-        if (!currentUser || !currentUser.uid) {
-            console.error('Current user is not defined or uid is missing');
-            return;
+    const handleImageChange = (e) => {
+        if (e.target.files && e.target.files[0]) {
+            setSelectedImage(e.target.files[0]);
         }
+    };
 
-        const fullName = users[currentUser.uid]?.fullName || 'Anonymous';
+    const handlePostStatus = useCallback(() => {
+        if (status.trim() === '' && !selectedImage) return;
+
+        const fullName = users[currentUser?.uid]?.fullName || 'Anonymous';
 
         const newStatus = {
             text: status,
             timestamp: new Date().toISOString(),
             user: {
-                uid: currentUser.uid,
+                uid: currentUser?.uid || 'anonymous',
                 fullName: fullName,
+                profileImage: users[currentUser?.uid]?.profileImage || '', // Fetch profile image URL
             },
         };
 
-        push(ref(database, 'statuses'), newStatus)
-            .then(() => {
-                setStatus('');
-            })
-            .catch((error) => {
-                console.error('Error posting status:', error);
-            });
-    }, [status, currentUser, users]);
+        let uploadTask;
+        if (selectedImage) {
+            const imageRef = storageRef(storage, `status-images/${Date.now()}_${selectedImage.name}`);
+            uploadTask = uploadBytes(imageRef, selectedImage)
+                .then(() => getDownloadURL(imageRef))
+                .then((url) => {
+                    newStatus.image = url;
+                    return push(ref(database, 'statuses'), newStatus);
+                })
+                .then(() => {
+                    setStatus('');
+                    setSelectedImage(null);
+                })
+                .catch((error) => {
+                    console.error('Error uploading image:', error);
+                });
+        } else {
+            push(ref(database, 'statuses'), newStatus)
+                .then(() => {
+                    setStatus('');
+                })
+                .catch((error) => {
+                    console.error('Error posting status:', error);
+                });
+        }
+    }, [status, selectedImage, currentUser, users]);
 
     const toggleCommentsModal = useCallback((statusId) => {
-        if (!currentUser) {
-            navigate('/login');
-            return;
-        }
-
         setSelectedStatusId(statusId);
         setIsSheetOpen(!isSheetOpen);
 
@@ -100,12 +108,12 @@ const Community = () => {
                 console.error('Error fetching comments:', error);
             });
         }
-    }, [currentUser, navigate, isSheetOpen]);
+    }, [isSheetOpen]);
 
     const handlePostComment = useCallback(() => {
         if (!newComment.trim()) return;
 
-        const fullName = users[currentUser.uid]?.fullName || 'Anonymous';
+        const fullName = users[currentUser?.uid]?.fullName || 'Anonymous';
 
         const newCommentData = {
             text: newComment,
@@ -121,7 +129,6 @@ const Community = () => {
             push(commentsRef, newCommentData)
                 .then(() => {
                     setNewComment('');
-                    // Fetch updated comments
                     onValue(commentsRef, (snapshot) => {
                         const commentsObject = snapshot.val();
                         const commentsArray = commentsObject ? Object.values(commentsObject) : [];
@@ -150,6 +157,10 @@ const Community = () => {
 
     const fullName = currentUser ? users[currentUser.uid]?.fullName || 'User' : 'User';
 
+    const handleImageClick = (url) => {
+        window.open(url, '_blank'); // Open image in a new tab
+    };
+
     return (
         <div className="community-container">
             <h2>Community Feed</h2>
@@ -163,25 +174,46 @@ const Community = () => {
                         onChange={handleStatusChange}
                         placeholder="What's on your mind?"
                     />
+                    <input 
+                        type="file" 
+                        accept="image/*"
+                        onChange={handleImageChange}
+                    />
                     <button onClick={handlePostStatus}>Post</button>
                 </div>
             )}
             <div className="statuses-list">
                 {statuses.map(([id, statusData]) => (
                     <div key={id} className="status-card">
-                        <p>
-                            <strong 
-                                className="status-user-name" 
-                                onClick={() => handleProfileClick(statusData.user.uid)}
-                            >
-                                {getUserFullName(statusData.user.uid)}
-                            </strong>
-                        </p>
-                        <p>{statusData.text}</p>
-                        <p className="status-timestamp">{formatTimestamp(statusData.timestamp)}</p>
-                        <button onClick={() => toggleCommentsModal(id)} className="comment-icon">
-                            💬
-                        </button>
+                        <img 
+                            src={users[statusData.user.uid]?.profileImage || 'default-profile-image-url'} 
+                            alt={statusData.user.fullName} 
+                            className="profile-image"
+                            onClick={() => handleProfileClick(statusData.user.uid)}
+                        />
+                        <div className="status-details">
+                            <p>
+                                <strong 
+                                    className="status-user-name" 
+                                    onClick={() => handleProfileClick(statusData.user.uid)}
+                                >
+                                    {getUserFullName(statusData.user.uid)}
+                                </strong>
+                            </p>
+                            <p>{statusData.text}</p>
+                            {statusData.image && (
+                                <img 
+                                    src={statusData.image} 
+                                    alt="status" 
+                                    className="status-image"
+                                    onClick={() => handleImageClick(statusData.image)}
+                                />
+                            )}
+                            <p className="status-timestamp">{formatTimestamp(statusData.timestamp)}</p>
+                            <button onClick={() => toggleCommentsModal(id)} className="comment-icon">
+                                💬
+                            </button>
+                        </div>
                     </div>
                 ))}
             </div>
