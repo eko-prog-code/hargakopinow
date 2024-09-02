@@ -1,7 +1,11 @@
-// src/firebase.js
+// src/firebase/firebase.js
 import { initializeApp } from 'firebase/app';
+import { getAuth } from 'firebase/auth';
 import { getDatabase } from 'firebase/database';
+import { getStorage } from 'firebase/storage';
+import { getMessaging } from 'firebase/messaging';
 
+// Your web app's Firebase configuration
 const firebaseConfig = {
     apiKey: "AIzaSyBVDa3agi4C26EEskfNvKlPCiX_FMEulF4",
     authDomain: "pos-coffee-c5073.firebaseapp.com",
@@ -14,6 +18,11 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const database = getDatabase(app);
 
-export { database };
+// Initialize Firebase services
+const auth = getAuth(app);
+const database = getDatabase(app);
+const storage = getStorage(app);
+const messaging = getMessaging(app);
+
+export { auth, database, storage, messaging };

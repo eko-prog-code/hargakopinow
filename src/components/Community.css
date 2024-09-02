@@ -1,0 +1,104 @@
+.community-container {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.status-input-container {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.status-input-container textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+.status-input-container button {
+    align-self: flex-end;
+    padding: 8px 16px;
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.statuses-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.status-card {
+    padding: 15px;
+    border-radius: 5px;
+    background-color: #f1f1f1;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.status-timestamp {
+    font-size: 12px;
+    color: #777;
+}
+
+.comment-icon {
+    cursor: pointer;
+    font-size: 20px;
+    background: none;
+    border: none;
+    color: #007bff;
+}
+
+.modal-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.comment-card {
+    padding: 5px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.comment-timestamp {
+    font-size: 12px;
+    color: #777;
+}
+
+.comment-input-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.comment-input-container input {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+.comment-input-container button {
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.close-sheet-button {
+    font-size: 20px;
+    color: #007bff;
+    background: none;
+    border: none;
+    cursor: pointer;
+}

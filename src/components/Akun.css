@@ -1,0 +1,109 @@
+/* Kontainer utama halaman Akun */
+.account-container {
+    padding: 20px;
+    max-width: 800px;
+    margin: auto;
+    border-radius: 8px;
+    background: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center; /* Mengatur semua teks di tengah */
+  }
+  
+  /* Gaya untuk gambar profil */
+  .profile-image {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 5px solid #007bff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease-in-out;
+    margin-bottom: 20px;
+    display: block; /* Memastikan gambar profil adalah block-level element */
+    margin-left: auto; /* Memusatkan gambar secara horizontal */
+    margin-right: auto; /* Memusatkan gambar secara horizontal */
+  }
+  
+  .profile-image:hover {
+    transform: scale(1.1); /* Zoom saat hover */
+  }
+  
+  /* Gaya untuk bagian informasi profil */
+  .profile-info {
+    margin-bottom: 20px;
+    text-align: left; /* Mengatur teks rata kiri dalam informasi profil */
+    display: inline-block; /* Mengatur profil-info sebagai elemen inline-block */
+  }
+  
+  /* Gaya untuk label informasi */
+  .profile-info p {
+    color: #555;
+    font-size: 18px;
+    margin: 10px 0;
+  }
+  
+  /* Gaya untuk input teks dan file dengan prefix unix */
+  .unix-input {
+    width: 100%;
+    max-width: 400px;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-size: 16px;
+    margin: 10px 0;
+    transition: border-color 0.3s ease;
+  }
+  
+  .unix-input:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+  
+  /* Gaya untuk tombol */
+  button {
+    padding: 12px 24px;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    background: linear-gradient(90deg, #007bff, #0056b3);
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.3s ease;
+  }
+  
+  button:hover {
+    background: linear-gradient(90deg, #0056b3, #007bff);
+    transform: scale(1.05); /* Zoom saat hover */
+  }
+  
+  button:active {
+    transform: scale(0.95); /* Zoom in saat klik */
+  }
+  
+  /* Gaya untuk teks */
+  h2 {
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  .loading-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999; /* Agar berada di atas elemen lain */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(255, 255, 255, 0.8); /* Background semi-transparan */
+    width: 100%;
+    height: 100%;
+  }
+  
+  .loading-container video {
+    width: 100px; /* Ukuran video bisa disesuaikan */
+    height: 100px;
+  }
+  
