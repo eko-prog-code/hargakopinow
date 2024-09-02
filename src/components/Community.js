@@ -1,55 +1,58 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { ref, push, onValue } from 'firebase/database';
 import { useNavigate } from 'react-router-dom';
-import { Sheet } from 'react-modal-sheet';
 import { database } from '../firebase/firebase';
-import { useUser } from '../context/UserContext'; // Import hook useUser
+import { useUser } from '../context/UserContext';
+import { Sheet } from 'react-modal-sheet';
 import './Community.css';
 
 const Community = () => {
     const [status, setStatus] = useState('');
     const [statuses, setStatuses] = useState([]);
+    const [comments, setComments] = useState([]);
     const [users, setUsers] = useState({});
     const [selectedStatusId, setSelectedStatusId] = useState(null);
     const [newComment, setNewComment] = useState('');
     const [isSheetOpen, setIsSheetOpen] = useState(false);
     const navigate = useNavigate();
-    const { user: currentUser } = useUser(); // Menggunakan UserContext
+    const { user: currentUser } = useUser();
 
+    // Fetch statuses and users once when component mounts
     useEffect(() => {
-        if (currentUser === undefined) return; // Tunggu sampai currentUser ada
         if (!currentUser) {
             navigate('/login');
-        } else {
-            console.log('Current User in Community:', currentUser);
+            return;
         }
-    }, [currentUser, navigate]);
 
-    useEffect(() => {
+        // Fetch statuses from Firebase
         const statusRef = ref(database, 'statuses');
         onValue(statusRef, (snapshot) => {
             const data = snapshot.val();
             if (data) {
-                setStatuses(Object.entries(data).reverse()); // Reverse the order here
+                setStatuses(Object.entries(data).reverse());
+            } else {
+                console.warn('No statuses found');
             }
         });
-    }, []);
 
-    useEffect(() => {
-        const usersRef = ref(database, 'transaksi/users');
+        // Fetch users from Firebase
+        const usersRef = ref(database, 'users');
         onValue(usersRef, (snapshot) => {
             const data = snapshot.val();
             if (data) {
                 setUsers(data);
+                console.log('Fetched users:', data); // Log all users
+            } else {
+                console.warn('No users found');
             }
         });
-    }, []);
+    }, [currentUser, navigate]);
 
     const handleStatusChange = (e) => {
         setStatus(e.target.value);
     };
 
-    const handlePostStatus = () => {
+    const handlePostStatus = useCallback(() => {
         if (status.trim() === '') return;
 
         if (!currentUser || !currentUser.uid) {
@@ -57,13 +60,15 @@ const Community = () => {
             return;
         }
 
+        const fullName = users[currentUser.uid]?.fullName || 'Anonymous';
+
         const newStatus = {
             text: status,
             timestamp: new Date().toISOString(),
             user: {
                 uid: currentUser.uid,
-                fullName: currentUser.displayName || 'Anonymous'
-            }
+                fullName: fullName,
+            },
         };
 
         push(ref(database, 'statuses'), newStatus)
@@ -73,63 +78,85 @@ const Community = () => {
             .catch((error) => {
                 console.error('Error posting status:', error);
             });
-    };
+    }, [status, currentUser, users]);
 
-    const handleOpenSheet = (statusId) => {
+    const toggleCommentsModal = useCallback((statusId) => {
+        if (!currentUser) {
+            navigate('/login');
+            return;
+        }
+
         setSelectedStatusId(statusId);
-        setIsSheetOpen(true);
-    };
+        setIsSheetOpen(!isSheetOpen);
 
-    const handleCloseSheet = () => {
-        setIsSheetOpen(false);
-        setSelectedStatusId(null);
-        setNewComment('');
-    };
+        if (statusId) {
+            const commentsRef = ref(database, `statuses/${statusId}/comments`);
+            onValue(commentsRef, (snapshot) => {
+                const commentsObject = snapshot.val();
+                const commentsArray = commentsObject ? Object.values(commentsObject) : [];
+                commentsArray.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+                setComments(commentsArray);
+            }, (error) => {
+                console.error('Error fetching comments:', error);
+            });
+        }
+    }, [currentUser, navigate, isSheetOpen]);
 
-    const handlePostComment = () => {
-        if (!newComment.trim() || !selectedStatusId) return;
+    const handlePostComment = useCallback(() => {
+        if (!newComment.trim()) return;
 
-        const userFullName = currentUser?.displayName || 'Anonymous';
+        const fullName = users[currentUser.uid]?.fullName || 'Anonymous';
 
         const newCommentData = {
             text: newComment,
             timestamp: new Date().toISOString(),
             user: {
                 uid: currentUser?.uid || 'unknown',
-                fullName: userFullName
-            }
+                fullName: fullName,
+            },
         };
 
-        push(ref(database, `statuses/${selectedStatusId}/comments`), newCommentData)
-            .then(() => {
-                setNewComment('');
-                handleCloseSheet();
-            })
-            .catch((error) => {
-                console.error('Error posting comment:', error);
-            });
-    };
+        if (selectedStatusId) {
+            const commentsRef = ref(database, `statuses/${selectedStatusId}/comments`);
+            push(commentsRef, newCommentData)
+                .then(() => {
+                    setNewComment('');
+                    // Fetch updated comments
+                    onValue(commentsRef, (snapshot) => {
+                        const commentsObject = snapshot.val();
+                        const commentsArray = commentsObject ? Object.values(commentsObject) : [];
+                        commentsArray.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+                        setComments(commentsArray);
+                    });
+                })
+                .catch((error) => {
+                    console.error('Error posting comment:', error);
+                });
+        }
+    }, [newComment, currentUser, selectedStatusId, users]);
 
     const formatTimestamp = (timestamp) => {
         const date = new Date(timestamp);
         return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
     };
 
-    const getUserFullName = (uid) => {
-        return users[uid]?.fullName || 'Anonymous';
-    };
+    const getUserFullName = useCallback((uid) => {
+        return users[uid]?.fullName || 'Anonymous'; // Fall back to 'Anonymous' if UID not found
+    }, [users]);
 
-    const handleProfileClick = (uid) => {
+    const handleProfileClick = useCallback((uid) => {
         navigate(`/akun/${uid}`);
-    };
+    }, [navigate]);
+
+    const fullName = currentUser ? users[currentUser.uid]?.fullName || 'User' : 'User';
 
     return (
         <div className="community-container">
             <h2>Community Feed</h2>
             {currentUser && (
-                <p>Hi, {currentUser.displayName || 'Anonymous'}! Share your thoughts!</p>
+                <p>Hi, {fullName} Share your thoughts!</p>
             )}
-            {currentUser ? (
+            {currentUser && (
                 <div className="status-input-container">
                     <textarea
                         value={status}
@@ -138,8 +165,6 @@ const Community = () => {
                     />
                     <button onClick={handlePostStatus}>Post</button>
                 </div>
-            ) : (
-                <p>Please log in to post a status.</p>
             )}
             <div className="statuses-list">
                 {statuses.map(([id, statusData]) => (
@@ -149,40 +174,42 @@ const Community = () => {
                                 className="status-user-name" 
                                 onClick={() => handleProfileClick(statusData.user.uid)}
                             >
-                                {statusData.user.fullName}
+                                {getUserFullName(statusData.user.uid)}
                             </strong>
                         </p>
                         <p>{statusData.text}</p>
                         <p className="status-timestamp">{formatTimestamp(statusData.timestamp)}</p>
-                        <button onClick={() => handleOpenSheet(id)} className="comment-icon">
+                        <button onClick={() => toggleCommentsModal(id)} className="comment-icon">
                             💬
                         </button>
                     </div>
                 ))}
             </div>
 
-            <Sheet isOpen={isSheetOpen} onClose={handleCloseSheet} snapPoints={[450, 0]} initialSnap={0}>
+            <Sheet isOpen={isSheetOpen} onClose={() => setIsSheetOpen(false)} snapPoints={[450, 0]} initialSnap={0}>
                 <Sheet.Container>
-                    <Sheet.Header>
-                        <button className="close-sheet-button" onClick={handleCloseSheet}>X</button>
-                    </Sheet.Header>
+                    <Sheet.Header />
                     <Sheet.Content>
-                        {selectedStatusId && statuses.find(([id]) => id === selectedStatusId)[1].comments &&
-                            Object.values(statuses.find(([id]) => id === selectedStatusId)[1].comments).map((comment, index) => (
+                        <div className="comments-list">
+                            {comments.map((comment, index) => (
                                 <div key={index} className="comment-card">
-                                    <p><strong>{getUserFullName(comment.user.uid)}</strong>: {comment.text}</p>
-                                    <p className="comment-timestamp">{formatTimestamp(comment.timestamp)}</p>
+                                    <strong>{getUserFullName(comment.user.uid)}</strong>
+                                    <p>{comment.text}</p>
+                                    <small>{formatTimestamp(comment.timestamp)}</small>
                                 </div>
                             ))}
-                        <div className="comment-input-container">
-                            <input
-                                type="text"
-                                value={newComment}
-                                onChange={(e) => setNewComment(e.target.value)}
-                                placeholder="Add a comment..."
-                            />
-                            <button onClick={handlePostComment}>Add Comment</button>
                         </div>
+                        {currentUser && (
+                            <div className="comment-input-container">
+                                <input
+                                    type="text"
+                                    value={newComment}
+                                    onChange={(e) => setNewComment(e.target.value)}
+                                    placeholder="Add a comment..."
+                                />
+                                <button onClick={handlePostComment}>Add Comment</button>
+                            </div>
+                        )}
                     </Sheet.Content>
                 </Sheet.Container>
             </Sheet>

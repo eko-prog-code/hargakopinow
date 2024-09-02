@@ -1,11 +1,9 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { getDatabase, ref as databaseRef, onValue } from 'firebase/database';
-import Shopee from './Shopee';
-import HargaNow from './HargaNow';
 import Community from './Community';
-import SinarRobusta from './SinarRobusta';
+import { FaRegEye, FaRegEyeSlash, FaTimes } from 'react-icons/fa';
 import './MainHome.css';
 
 const Home = () => {
@@ -14,13 +12,32 @@ const Home = () => {
     const [usdIdr, setUsdIdr] = useState(null);
     const [shopeePrices, setShopeePrices] = useState([]);
     const [currentUser, setCurrentUser] = useState(null);
+    const [fullName, setFullName] = useState('');
     const navigate = useNavigate();
+    const scrollContainerRef = useRef(null);
+    const [password, setPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
+    const [showModal, setShowModal] = useState(false);
+    const [error, setError] = useState('');
+
+    const handlePasswordChange = (e) => setPassword(e.target.value);
+    const toggleShowPassword = () => setShowPassword(!showPassword);
+    const handleSubmitPassword = () => {
+        if (password === 'ethan') {
+            setShowModal(false);
+            // Navigate or perform action
+        } else {
+            setError('Password salah, coba lagi.');
+        }
+    };
+    const closeModal = () => setShowModal(false);
 
     useEffect(() => {
         const auth = getAuth();
         const unsubscribe = onAuthStateChanged(auth, (user) => {
             if (user) {
                 setCurrentUser(user);
+                fetchFullName(user.uid);
             } else {
                 setCurrentUser(null);
                 navigate('/'); // Redirects to login if no user is authenticated
@@ -29,10 +46,21 @@ const Home = () => {
         return () => unsubscribe();
     }, [navigate]);
 
+    const fetchFullName = (uid) => {
+        const database = getDatabase();
+        const userRef = databaseRef(database, `users/${uid}/fullName`);
+        onValue(userRef, (snapshot) => {
+            const fullName = snapshot.val();
+            if (fullName) {
+                setFullName(fullName);
+            }
+        });
+    };
+
     useEffect(() => {
         const database = getDatabase();
         const robustaRef = databaseRef(database, 'RealTimeRobusta');
-        
+
         const unsubscribeRobusta = onValue(robustaRef, (snapshot) => {
             const data = snapshot.val();
             if (data) {
@@ -60,18 +88,102 @@ const Home = () => {
         };
     }, []);
 
+    const handleIncomeClick = () => {
+        navigate('/income');
+    };
+
+    const handleOutcomeClick = () => {
+        navigate('/outcome');
+    };
+
+    const scrollLeft = () => {
+        if (scrollContainerRef.current) {
+            scrollContainerRef.current.scrollBy({ left: -300, behavior: 'smooth' });
+        }
+    };
+
+    const scrollRight = () => {
+        if (scrollContainerRef.current) {
+            scrollContainerRef.current.scrollBy({ left: 300, behavior: 'smooth' });
+        }
+    };
+
+
     return (
         <div className="home-container">
             <h2>Catatan Kopi</h2>
+
+            <h2 className="home-title">Sinar Robusta</h2>
             {currentUser && (
-                <p>Hi, {currentUser.displayName || 'User'} selamat datang</p>
+                <p>Hi, {fullName || 'User'} selamat datang</p>
             )}
-
-            <SinarRobusta />
-
-            <Shopee shopeePrices={shopeePrices} />
-            <HargaNow hargaRobustaIDR={hargaRobustaIDR} hargaRobustaDunia={hargaRobustaDunia} usdIdr={usdIdr} />
-            <Community currentUser={currentUser} />
+            <div className="icon-container">
+                <img
+                    src="https://firebasestorage.googleapis.com/v0/b/pos-coffee-c5073.appspot.com/o/income.png?alt=media&token=cd48abbb-a975-42fd-be0c-18ade53866eb"
+                    alt="Income Icon"
+                    className="icon"
+                    onClick={() => setShowModal(true)}
+                />
+                <img
+                    src="https://firebasestorage.googleapis.com/v0/b/pos-coffee-c5073.appspot.com/o/outcome.png?alt=media&token=fa3c4024-e941-436d-913f-c26d5caf0351"
+                    alt="Outcome Icon"
+                    className="icon"
+                    onClick={() => setShowModal(true)}
+                />
+            </div>
+            {showModal && (
+                <div className="modal">
+                    <div className="modal-content">
+                        <FaTimes className="close-icon" onClick={closeModal} />
+                        <h3>Masukkan Password Admin Sinar Robusta</h3>
+                        <div className="password-container">
+                            <input
+                                type={showPassword ? 'text' : 'password'}
+                                value={password}
+                                onChange={handlePasswordChange}
+                                placeholder="Masukkan Password"
+                            />
+                            <span onClick={toggleShowPassword} className="eye-icon">
+                                {showPassword ? <FaRegEyeSlash /> : <FaRegEye />}
+                            </span>
+                        </div>
+                        {error && <p className="error-message">{error}</p>}
+                        <button onClick={handleSubmitPassword}>Submit</button>
+                    </div>
+                </div>
+            )}
+            <div className="harga-robusta-container">
+                <h3>Harga Robusta Hari Ini:</h3>
+                {hargaRobustaIDR ? (
+                    <>
+                        <p>{`Rp ${hargaRobustaIDR.toLocaleString('id-ID')} /kg`}</p>
+                        <p>Rumus: Harga Robusta Dunia (USD/ton) x Nilai Tukar USD ke IDR</p>
+                        <p>{`Rumus: ${hargaRobustaDunia} (USD/ton) x ${usdIdr} (USD to IDR)`}</p>
+                    </>
+                ) : (
+                    <p>Loading...</p>
+                )}
+            </div>
+            <div className="sumber-informasi">
+                <p>Sumber Informasi: <a href="https://id.investing.com/commodities/london-coffee" target="_blank" rel="noopener noreferrer">https://id.investing.com/commodities/london-coffee</a></p>
+            </div>
+            <div className="shopee-prices-container">
+                <h3>Harga Kopi di Shopee:</h3>
+                <button className="scroll-button left" onClick={scrollLeft}>&#10094;</button>
+                <div className="shopee-prices-carousel" ref={scrollContainerRef}>
+                    {shopeePrices.map((price, index) => (
+                        <div key={index} className="shopee-price-card">
+                            <p><strong>Toko:</strong> {price.toko}</p>
+                            <p><strong>Harga:</strong> {price.harga}</p>
+                            <p><strong>Penjualan:</strong> {price.penjualan}</p>
+                            <p><strong>Rating:</strong> {price['5Bintang']} {price.bintang}</p>
+                            <a href={price.url} className="shopee-link" target="_blank" rel="noopener noreferrer">Lihat di Shopee</a>
+                        </div>
+                    ))}
+                </div>
+                <button className="scroll-button right" onClick={scrollRight}>&#10095;</button>
+            </div>
+            <Community currentUser={currentUser} fullName={fullName} />
         </div>
     );
 };
