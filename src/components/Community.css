@@ -1,10 +1,13 @@
+/* Main container styling */
 .community-container {
     width: 100%;
-    max-width: 600px;
+    max-width: 600px; /* Ensure the container doesn't exceed 600px on larger screens */
     margin: 0 auto;
     padding: 20px;
+    box-sizing: border-box; /* Include padding in the element's total width and height */
 }
 
+/* Status input container styling */
 .status-input-container {
     display: flex;
     flex-direction: column;
@@ -12,7 +15,7 @@
 }
 
 .status-input-container textarea {
-    width: 100%;
+    width: 94%;
     padding: 10px;
     font-size: 16px;
     margin-bottom: 10px;
@@ -31,12 +34,14 @@
     cursor: pointer;
 }
 
+/* Status list styling */
 .statuses-list {
     display: flex;
     flex-direction: column;
     gap: 20px;
 }
 
+/* Status card styling */
 .status-card {
     padding: 15px;
     border-radius: 5px;
@@ -44,11 +49,13 @@
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 
+/* Timestamp styling for statuses */
 .status-timestamp {
     font-size: 12px;
     color: #777;
 }
 
+/* Comment icon styling */
 .comment-icon {
     cursor: pointer;
     font-size: 20px;
@@ -57,12 +64,38 @@
     color: #007bff;
 }
 
+/* Modal content styling */
 .modal-content {
     display: flex;
     flex-direction: column;
     height: 100%;
+    max-width: 90%;
+    width: 400px; /* Default width for larger screens */
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    box-sizing: border-box; /* Include padding in width */
 }
 
+/* Responsive adjustments for modals */
+@media (max-width: 600px) {
+    .modal-content {
+        width: 90%;
+        max-width: 90%; /* Adjust width for mobile devices */
+        height: 80%; /* Adjust height for mobile devices */
+    }
+}
+
+@media (max-width: 400px) {
+    .modal-content {
+        width: 95%;
+        max-width: 95%; /* Make it even narrower on very small screens */
+        height: 80%; /* Adjust height for very small screens */
+    }
+}
+
+/* Comments list styling */
 .comments-list {
     flex: 1;
     overflow-y: auto;
@@ -74,11 +107,13 @@
     border-bottom: 1px solid #ddd;
 }
 
+/* Comment timestamp styling */
 .comment-timestamp {
     font-size: 12px;
     color: #777;
 }
 
+/* Comment input container styling */
 .comment-input-container {
     display: flex;
     flex-direction: column;
@@ -106,6 +141,7 @@
     cursor: pointer;
 }
 
+/* Sheet container styling */
 .sheet-container {
     display: flex;
     flex-direction: column;
@@ -119,6 +155,7 @@
     height: 100%;
 }
 
+/* Close button inside sheet styling */
 .close-sheet-button {
     font-size: 20px;
     color: #007bff;
