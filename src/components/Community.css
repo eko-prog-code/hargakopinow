@@ -223,36 +223,54 @@
 }
 
 /* Tambahan styling untuk status card */
+/* Status card styling */
 .status-card {
     display: flex;
     align-items: flex-start;
-    margin-bottom: 20px;
-    padding: 10px;
-    border: 1px solid #ddd;
+    padding: 15px;
     border-radius: 8px;
-    background-color: #fff;
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    border: 1px solid #e0e0e0;
 }
 
-.status-details {
-    margin-left: 10px;
-    flex: 1;
-}
-
-.profile-image {
-    width: 50px;
-    height: 50px;
+.status-card img.profile-image {
+    width: 60px; /* Adjust width as needed */
+    height: 60px; /* Adjust height as needed */
     border-radius: 50%;
+    object-fit: cover;
+    margin-right: 15px;
     cursor: pointer;
+    border: 2px solid #ddd; /* Optional: add a border around the image */
 }
 
-.status-timestamp {
-    font-size: 0.8em;
+.status-card .status-details {
+    flex: 1; /* Take up the remaining space */
+    margin-left: 10px;
+}
+
+.status-card .status-details .status-user-name {
+    font-weight: bold;
+    cursor: pointer;
+    color: #333;
+}
+
+.status-card .status-details p {
+    margin: 5px 0;
+    line-height: 1.5;
+    text-align: left; /* Menyusun teks rata kiri */
+}
+
+.status-card .status-details .status-timestamp {
+    font-size: 0.85rem;
     color: #888;
 }
 
-.comment-icon {
+.status-card .comment-icon {
     background: none;
     border: none;
-    font-size: 1.2em;
+    font-size: 1.2rem;
+    color: #007bff;
     cursor: pointer;
 }
