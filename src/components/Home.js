@@ -19,18 +19,31 @@ const Home = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [showModal, setShowModal] = useState(false);
     const [error, setError] = useState('');
+    const [nextPage, setNextPage] = useState('');
 
     const handlePasswordChange = (e) => setPassword(e.target.value);
     const toggleShowPassword = () => setShowPassword(!showPassword);
+
     const handleSubmitPassword = () => {
         if (password === 'ethan') {
             setShowModal(false);
-            // Navigate or perform action
+            navigate(nextPage); // Navigate to the next page based on the image clicked
         } else {
             setError('Password salah, coba lagi.');
         }
     };
+
     const closeModal = () => setShowModal(false);
+
+    const handleIncomeClick = () => {
+        setNextPage('/income');
+        setShowModal(true);
+    };
+
+    const handleOutcomeClick = () => {
+        setNextPage('/outcome');
+        setShowModal(true);
+    };
 
     useEffect(() => {
         const auth = getAuth();
@@ -88,14 +101,6 @@ const Home = () => {
         };
     }, []);
 
-    const handleIncomeClick = () => {
-        navigate('/income');
-    };
-
-    const handleOutcomeClick = () => {
-        navigate('/outcome');
-    };
-
     const scrollLeft = () => {
         if (scrollContainerRef.current) {
             scrollContainerRef.current.scrollBy({ left: -300, behavior: 'smooth' });
@@ -108,12 +113,10 @@ const Home = () => {
         }
     };
 
-
     return (
         <div className="home-container">
-            <h2>Catatan Kopi</h2>
-
             <h2 className="home-title">Sinar Robusta</h2>
+            <p>Temanggung</p>
             {currentUser && (
                 <p>Hi, {fullName || 'User'} selamat datang</p>
             )}
@@ -122,13 +125,13 @@ const Home = () => {
                     src="https://firebasestorage.googleapis.com/v0/b/pos-coffee-c5073.appspot.com/o/income.png?alt=media&token=cd48abbb-a975-42fd-be0c-18ade53866eb"
                     alt="Income Icon"
                     className="icon"
-                    onClick={() => setShowModal(true)}
+                    onClick={handleIncomeClick}
                 />
                 <img
                     src="https://firebasestorage.googleapis.com/v0/b/pos-coffee-c5073.appspot.com/o/outcome.png?alt=media&token=fa3c4024-e941-436d-913f-c26d5caf0351"
                     alt="Outcome Icon"
                     className="icon"
-                    onClick={() => setShowModal(true)}
+                    onClick={handleOutcomeClick}
                 />
             </div>
             {showModal && (
@@ -165,7 +168,7 @@ const Home = () => {
                 )}
             </div>
             <div className="sumber-informasi">
-                <p>Sumber Informasi: <a href="https://id.investing.com/commodities/london-coffee" target="_blank" rel="noopener noreferrer">https://id.investing.com/commodities/london-coffee</a></p>
+                <p>Sumber Informasi: <a href="https://id.investing.com/commodities/london-coffee" target="_blank" rel="noopener noreferrer">Investing-Commodities</a></p>
             </div>
             <div className="shopee-prices-container">
                 <h3>Harga Kopi di Shopee:</h3>

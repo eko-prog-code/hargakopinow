@@ -9,6 +9,7 @@
 }
 
 /* Modal styling */
+/* Modal styling */
 .modal {
     position: fixed;
     top: 0;
@@ -31,6 +32,24 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 20px;
     box-sizing: border-box;
+    max-height: 80vh; /* Ensuring the modal doesn't exceed 80% of the viewport height */
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    .modal-content {
+        width: 90%;
+        height: 60%; /* Adjust height for mobile devices */
+        max-height: 60%; /* Set the maximum height for mobile devices */
+    }
+}
+
+@media (max-width: 400px) {
+    .modal-content {
+        width: 95%;
+        height: 60%; /* Make it even narrower on very small screens */
+        max-height: 60%; /* Ensure max height on very small screens */
+    }
 }
 
 .close-icon {
@@ -68,7 +87,8 @@
 /* Responsive adjustments */
 @media (max-width: 600px) {
     .modal-content {
-        width: 90%; /* Adjust width for mobile devices */
+        width: 90%;
+        height: 60%; /* Adjust width for mobile devices */
     }
 
     .icon {
@@ -88,7 +108,8 @@
 
 @media (max-width: 400px) {
     .modal-content {
-        width: 95%; /* Make it even narrower on very small screens */
+        width: 95%;
+        height: 60%; /* Make it even narrower on very small screens */
     }
 
     .password-container input {
@@ -231,17 +252,21 @@
     text-decoration: underline;
 }
 
+/* Scroll button styling */
 .scroll-button {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    padding: 10px;
+    font-size: 1.5em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     position: absolute;
     top: 50%;
-    transform: translateY(-50%);
-    background-color: #007BFF;
-    color: #fff;
-    border: none;
-    padding: 10px;
-    cursor: pointer;
-    font-size: 1.5em;
     z-index: 10;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .scroll-button.left {
@@ -251,6 +276,11 @@
 .scroll-button.right {
     right: 10px;
 }
+
+.scroll-button:focus {
+    outline: none;
+}
+
 
 .modal {
     position: fixed;
