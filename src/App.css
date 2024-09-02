@@ -146,6 +146,7 @@
   border-radius: 50%;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   cursor: pointer;
+  z-index: 9999; /* High value to ensure it is on top of other elements */
 }
 
 /* Notification Popup styles */
@@ -159,3 +160,4 @@
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
+
