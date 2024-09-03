@@ -170,8 +170,7 @@ const Home = () => {
                 </div>
             )}
             <div className="harga-robusta-container">
-                <h3>Harga Robusta Hari Ini:</h3>
-                <p>Robusta London Berjangka</p>
+                <h3>Robusta London Berjangka:</h3>
                 {hargaRobustaIDR ? (
                     <>
                         <p>{`Rp ${hargaRobustaIDR.toLocaleString('id-ID')} /kg`}</p>
