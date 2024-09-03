@@ -5,6 +5,7 @@ import { getDatabase, ref as databaseRef, onValue } from 'firebase/database';
 import Community from './Community';
 import { FaRegEye, FaRegEyeSlash, FaTimes } from 'react-icons/fa';
 import './MainHome.css';
+import { FaPhone } from 'react-icons/fa'; 
 
 const Home = () => {
     const [hargaRobustaIDR, setHargaRobustaIDR] = useState(null);
@@ -134,6 +135,19 @@ const Home = () => {
                     onClick={handleOutcomeClick}
                 />
             </div>
+
+            <div className="contact-section">
+                <h4>Beli & Cari tau Harga Kopi Sinar Robusta Temanggung</h4>
+                <div className="contact-links">
+                    <a href="https://wa.me/6281568483152" target="_blank" rel="noopener noreferrer" className="contact-link">
+                        <FaPhone className="phone-icon" /> Owner I +6281568483152 
+                    </a>
+                    <a href="https://wa.me/6289671464086" target="_blank" rel="noopener noreferrer" className="contact-link">
+                        <FaPhone className="phone-icon" /> Owner II +6289671464086 
+                    </a>
+                </div>
+            </div>
+
             {showModal && (
                 <div className="modal">
                     <div className="modal-content">
@@ -157,6 +171,7 @@ const Home = () => {
             )}
             <div className="harga-robusta-container">
                 <h3>Harga Robusta Hari Ini:</h3>
+                <p>Robusta London Berjangka</p>
                 {hargaRobustaIDR ? (
                     <>
                         <p>{`Rp ${hargaRobustaIDR.toLocaleString('id-ID')} /kg`}</p>
