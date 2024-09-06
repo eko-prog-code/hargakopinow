@@ -6,12 +6,14 @@
     text-align: center;
 }
 
+/* Header */
 .unix-929-h1 {
     font-size: 3rem;
     color: #333;
     margin-bottom: 0.5rem;
 }
 
+/* Paragraph */
 .unix-929-p {
     font-size: 1.2rem;
     color: #777;
@@ -69,9 +71,9 @@
     margin-top: 20px;
     position: relative;
     width: 100%;
-    max-width: 100%;
     height: 0;
     padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+    overflow: hidden; /* Menyembunyikan bagian video yang terpotong */
 }
 
 .unix-929-video-player .react-player {
@@ -80,6 +82,7 @@
     left: 0;
     width: 100%;
     height: 100%;
+    object-fit: cover; /* Memastikan video menyesuaikan frame tanpa terpotong */
 }
 
 /* Modal Overlay Styling */
@@ -195,13 +198,38 @@
 
 /* Responsive Modal Styling */
 @media (max-width: 768px) {
+    .unix-929-ica-container {
+        padding: 10px; /* Mengurangi padding pada container untuk perangkat mobile */
+    }
+
+    .unix-929-h1 {
+        font-size: 2rem; /* Menyesuaikan ukuran font untuk header pada perangkat mobile */
+    }
+
+    .unix-929-p {
+        font-size: 1rem; /* Menyesuaikan ukuran font untuk paragraf pada perangkat mobile */
+    }
+
+    .unix-929-search-input {
+        width: 100%;
+        max-width: 100%; /* Memastikan input pencarian memenuhi lebar layar */
+    }
+
+    .unix-929-video-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Menyesuaikan grid untuk mobile */
+    }
+
+    .unix-929-video-card {
+        padding: 15px; /* Menyesuaikan padding untuk kartu video pada perangkat mobile */
+    }
+
     .unix-929-modal-content {
         padding: 20px;
-        width: 90%; /* Adjust for mobile devices */
+        width: 90%; /* Mengurangi lebar modal pada perangkat mobile */
     }
 
     .unix-929-password-input {
-        width: 70%; /* Adjust width for mobile */
+        width: 70%; /* Menyesuaikan lebar input password pada perangkat mobile */
     }
 
     .unix-929-modal-buttons {

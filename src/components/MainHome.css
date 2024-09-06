@@ -336,7 +336,7 @@
 
 .centered-image {
     cursor: pointer;
-    max-width: 100%;
+    max-width: 60%;
     height: auto;
     transition: transform 0.2s;
 }
