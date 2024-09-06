@@ -226,7 +226,7 @@
 /* Responsive Styling for Small Screens */
 @media (max-width: 656px) {
     .unix-929-video-player {
-        padding-bottom: 10%; /* Adjust aspect ratio for smaller devices */
+        padding-bottom: 2%; /* Adjust aspect ratio for smaller devices */
         height: 100%;    
     }
 }
