@@ -102,6 +102,9 @@ const App = () => {
                 >
                   Akun Ku
                 </Link>
+                <Link to="/register" onClick={() => setIsSheetOpen(false)} className="modal-card">
+                  Register
+                </Link>
                 {user ? (
                   <button
                     onClick={() => {
