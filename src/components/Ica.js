@@ -151,7 +151,7 @@ const handleVideoClick = (video) => {
         {filteredVideos.map((video) => (
           <div key={video.id} className="marketplace-card">
             <h3>{video.title}</h3>
-            <p>{video.description}</p>
+            <p>{video.desc}</p>
             <button className="view-more-button" onClick={() => handleVideoClick(video)}>
               {video.access ? 'Enter Password' : 'View More'}
             </button>
