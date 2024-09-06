@@ -117,6 +117,7 @@ const Home = () => {
             scrollContainerRef.current.scrollBy({ left: 300, behavior: 'smooth' });
         }
     };
+    
 
     return (
         <div className="home-container">

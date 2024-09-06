@@ -6,7 +6,27 @@ import { useUser } from '../context/UserContext'; // Pastikan Anda memiliki kont
 import ReactPlayer from 'react-player';
 import './Ica.css'; // Import CSS untuk styling
 
-Modal.setAppElement('#root'); // Penting untuk aksesibilitas
+// Set modal untuk aksesibilitas
+Modal.setAppElement('#root');
+
+// Definisikan modalStyles
+const modalStyles = {
+  content: {
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    transform: 'translate(-50%, -50%)',
+    width: '80%',
+    maxWidth: '600px',
+    height: '80%',
+    maxHeight: '400px',
+    padding: '20px',
+    backgroundColor: '#fff',
+    borderRadius: '8px',
+    overflow: 'hidden',
+  },
+};
 
 const Ica = () => {
   const { user } = useUser(); // Mendapatkan user yang sedang login
@@ -58,20 +78,25 @@ const Ica = () => {
   );
 
   // Handle klik video
-  const handleVideoClick = (video) => {
-    if (video.access && user && video.access[user.uid]) {
-      // Video memiliki proteksi password dan user memiliki akses
-      setSelectedVideo(video);
-      setIsModalOpen(true);
-    } else if (video.access && user && !video.access[user.uid]) {
-      // Video memiliki proteksi password tetapi user tidak memiliki akses
-      alert('Anda tidak memiliki akses ke video ini.');
-    } else {
-      // Video tidak memiliki proteksi password
-      setSelectedVideo(video);
-      setPlayVideo(true); // Mulai memutar video langsung tanpa modal
-    }
-  };
+  // Handle klik video
+const handleVideoClick = (video) => {
+  if (!user) {
+    // Jika pengguna belum login, arahkan ke halaman login
+    navigate('/login');
+  } else if (video.access && user && video.access[user.uid]) {
+    // Video memiliki proteksi password dan user memiliki akses
+    setSelectedVideo(video);
+    setIsModalOpen(true);
+  } else if (video.access && user && !video.access[user.uid]) {
+    // Video memiliki proteksi password tetapi user tidak memiliki akses
+    alert('Anda tidak memiliki akses ke video ini.');
+  } else {
+    // Video tidak memiliki proteksi password
+    setSelectedVideo(video);
+    setPlayVideo(true); // Mulai memutar video langsung tanpa modal
+  }
+};
+
 
   // Handle submit password
   const handleSubmitPassword = () => {
@@ -86,11 +111,6 @@ const Ica = () => {
     }
   };
 
-  // Handle close modal
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-    setPasswordInput('');
-  };
 
   // Toggle password visibility
   const togglePasswordVisibility = () => {
@@ -102,66 +122,83 @@ const Ica = () => {
     setPlayVideo(!playVideo);
   };
 
+  // Handle close modal
+  const handleCloseModal = () => {
+    setIsModalOpen(false);  // Menutup modal
+    setPasswordInput('');   // Mengosongkan input password
+    setPlayVideo(false);    // Mematikan video
+  };
+
+
   return (
-    <div className="unix-929-ica-container">
-      <h1 className="unix-929-h1">Welcome {fullName}</h1>
-      <p className="unix-929-p">Search and select a video to watch:</p>
-      <input
-        type="text"
-        className="unix-929-search-input"
-        placeholder="Search by title"
-        value={searchTitle}
-        onChange={(e) => setSearchTitle(e.target.value)}
-      />
-      <div className="unix-929-video-grid">
+    <div className="marketplace-container">
+      <div className="title-marketplace">
+        <img src="https://firebasestorage.googleapis.com/v0/b/pos-coffee-c5073.appspot.com/o/DALLE2024-09-0622.31.38-Abluevideoplayiconwithasinglebrowncoffeebeanleaningagainstitsetonasimplecleanbackground-ezgif.com-webp-to-png-converter-removebg-preview.png?alt=media&token=a6356c26-6c43-47ab-b669-2200c8b2889a" alt="Logo" className="logo" />
+        <h1>Welcome, {fullName}</h1>
+      </div>
+
+      <div className="marketplace-search-container">
+        <input
+          type="text"
+          className="marketplace-search-input"
+          placeholder="Search..."
+          value={searchTitle}
+          onChange={(e) => setSearchTitle(e.target.value)}
+        />
+      </div>
+
+      <div className="marketplace-card-container">
         {filteredVideos.map((video) => (
-          <div
-            key={video.id}
-            className="unix-929-video-card"
-            onClick={() => handleVideoClick(video)}
-          >
+          <div key={video.id} className="marketplace-card">
             <h3>{video.title}</h3>
-            <p>{video.desc}</p>
+            <p>{video.description}</p>
+            <button className="view-more-button" onClick={() => handleVideoClick(video)}>
+              {video.access ? 'Enter Password' : 'View More'}
+            </button>
           </div>
         ))}
       </div>
-      {playVideo && selectedVideo && (
-        <div className="unix-929-video-player">
-          <ReactPlayer url={selectedVideo.url} controls />
+
+      {selectedVideo && playVideo && (
+        <div className="video-player-container">
+          <button className="close-video-button" onClick={handleCloseModal}>×</button>
+          <ReactPlayer
+            url={selectedVideo.url}
+            playing={playVideo}
+            controls={true}
+            width="100%"
+            height="100%"
+          />
         </div>
       )}
+
       <Modal
         isOpen={isModalOpen}
         onRequestClose={handleCloseModal}
-        className="unix-929-modal"
-        overlayClassName="unix-929-modal-overlay"
+        style={modalStyles}
+        contentLabel="Password Protected Video"
       >
-        <div className="unix-929-modal-content">
-          <span className="unix-929-close-icon" onClick={handleCloseModal}>
-            &times;
-          </span>
-          <h2>Enter Password</h2>
-          <div className="unix-929-password-container">
-            <input
-              type={showPassword ? 'text' : 'password'}
-              className="unix-929-password-input"
-              value={passwordInput}
-              onChange={(e) => setPasswordInput(e.target.value)}
-            />
-            <button className="unix-929-toggle-password" onClick={togglePasswordVisibility}>
-              {showPassword ? '🙈' : '🙉'}
-            </button>
-          </div>
-          <div className="unix-929-modal-buttons">
-            <button className="unix-929-submit-button" onClick={handleSubmitPassword}>
-              Submit
-            </button>
-            <button className="unix-929-cancel-button" onClick={handleCloseModal}>
-              Cancel
-            </button>
-          </div>
-        </div>
+        <button className="close-video-button" onClick={handleCloseModal}>
+          ×
+        </button>
+        <h2>{selectedVideo?.title}</h2>
+        <p>{selectedVideo?.desc}</p>
+        <p>Enter the password to access the video:</p>
+        <input
+          type={showPassword ? 'text' : 'password'}
+          className="password-input"
+          placeholder="Password"
+          value={passwordInput}
+          onChange={(e) => setPasswordInput(e.target.value)}
+        />
+        <span className="password-toggle" onClick={togglePasswordVisibility}>
+          {showPassword ? '🙈' : '🙉'}
+        </span>
+        <button className="submit-button" onClick={handleSubmitPassword}>
+          Submit
+        </button>
       </Modal>
+
     </div>
   );
 };
