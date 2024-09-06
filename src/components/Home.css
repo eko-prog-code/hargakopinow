@@ -230,3 +230,9 @@ thead {
 .summary-item span {
   color: #007bff; /* Blue color for amounts */
 }
+
+.contact-section h4 {
+  text-align: left;
+  margin-bottom: 10px; /* atau sesuai preferensimu */
+  font-size: 18px; /* ukuran bisa diubah sesuai keinginan */
+}

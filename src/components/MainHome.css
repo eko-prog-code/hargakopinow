@@ -328,5 +328,28 @@
     color: #25d366; /* WhatsApp green */
 }
 
+.centered-image-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.centered-image {
+    cursor: pointer;
+    max-width: 100%;
+    height: auto;
+    transition: transform 0.2s;
+}
+
+.centered-image:hover {
+    transform: scale(1.05);
+}
+
+.contact-section h4 {
+    text-align: left;
+    margin-bottom: 10px; /* atau sesuai preferensimu */
+    font-size: 18px; /* ukuran bisa diubah sesuai keinginan */
+  }
+
 
 

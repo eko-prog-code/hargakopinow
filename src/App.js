@@ -16,6 +16,7 @@ import Register from './components/Register';
 import { auth } from './firebase/firebase';
 import { requestForToken, onMessageListener } from './firebase/fcm';
 import { useUser } from './context/UserContext'; // Import the useUser hook
+import Ica from './components/Ica';
 import './App.css';
 
 const App = () => {
@@ -134,6 +135,7 @@ const App = () => {
           />
           <Route path="/register" element={<Register />} />
           <Route path="/akun/:userId" element={<Akun />} />
+          <Route path="/ica" element={<Ica />} />
         </Routes>
 
         {notification.title && (

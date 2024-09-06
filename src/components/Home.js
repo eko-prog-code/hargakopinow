@@ -34,6 +34,10 @@ const Home = () => {
         }
     };
 
+    const handleImageClick = () => {
+        navigate('/ica');
+    };
+
     const closeModal = () => setShowModal(false);
 
     const handleIncomeClick = () => {
@@ -199,6 +203,14 @@ const Home = () => {
                     ))}
                 </div>
                 <button className="scroll-button right" onClick={scrollRight}>&#10095;</button>
+            </div>
+            <div className="centered-image-container">
+                <img
+                    src="https://firebasestorage.googleapis.com/v0/b/pos-coffee-c5073.appspot.com/o/ICA.png?alt=media&token=d9e0db40-a278-4d14-bf49-6960fe5dc91e"
+                    alt="ICA"
+                    className="centered-image"
+                    onClick={handleImageClick}
+                />
             </div>
             <Community currentUser={currentUser} fullName={fullName} />
         </div>
