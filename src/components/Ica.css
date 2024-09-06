@@ -4,9 +4,10 @@
     max-width: 1200px;
     margin: auto;
     text-align: center;
+    overflow-x: hidden; /* Prevent horizontal scroll */
 }
 
-/* Header */
+/* Heading */
 .unix-929-h1 {
     font-size: 3rem;
     color: #333;
@@ -68,12 +69,15 @@
 
 /* Video Player */
 .unix-929-video-player {
-    margin-top: 20px;
     position: relative;
     width: 100%;
     height: 0;
     padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
-    overflow: hidden; /* Menyembunyikan bagian video yang terpotong */
+    background-color: #000; /* Background color for empty space */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
 }
 
 .unix-929-video-player .react-player {
@@ -82,7 +86,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Memastikan video menyesuaikan frame tanpa terpotong */
+    object-fit: cover; /* Ensure video fills the container without distortion */
 }
 
 /* Modal Overlay Styling */
@@ -198,38 +202,13 @@
 
 /* Responsive Modal Styling */
 @media (max-width: 768px) {
-    .unix-929-ica-container {
-        padding: 10px; /* Mengurangi padding pada container untuk perangkat mobile */
-    }
-
-    .unix-929-h1 {
-        font-size: 2rem; /* Menyesuaikan ukuran font untuk header pada perangkat mobile */
-    }
-
-    .unix-929-p {
-        font-size: 1rem; /* Menyesuaikan ukuran font untuk paragraf pada perangkat mobile */
-    }
-
-    .unix-929-search-input {
-        width: 100%;
-        max-width: 100%; /* Memastikan input pencarian memenuhi lebar layar */
-    }
-
-    .unix-929-video-grid {
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Menyesuaikan grid untuk mobile */
-    }
-
-    .unix-929-video-card {
-        padding: 15px; /* Menyesuaikan padding untuk kartu video pada perangkat mobile */
-    }
-
     .unix-929-modal-content {
         padding: 20px;
-        width: 90%; /* Mengurangi lebar modal pada perangkat mobile */
+        width: 90%; /* Adjust for mobile devices */
     }
 
     .unix-929-password-input {
-        width: 70%; /* Menyesuaikan lebar input password pada perangkat mobile */
+        width: 70%; /* Adjust width for mobile */
     }
 
     .unix-929-modal-buttons {
@@ -241,5 +220,13 @@
     .unix-929-cancel-button {
         width: 100%;
         margin: 10px 0;
+    }
+}
+
+/* Responsive Styling for Small Screens */
+@media (max-width: 656px) {
+    .unix-929-video-player {
+        padding-bottom: 10%; /* Adjust aspect ratio for smaller devices */
+        height: 100%;    
     }
 }
