@@ -29,7 +29,7 @@ const App = () => {
 
   useEffect(() => {
     // Initialize the audio and store it in a ref
-    audioRef.current = new Audio('https://firebasestorage.googleapis.com/v0/b/pos-coffee-c5073.appspot.com/o/Robusta.mp3?alt=media&token=eeb153a6-18b8-4e1e-a04f-5df9d193164d');
+    audioRef.current = new Audio('https://firebasestorage.googleapis.com/v0/b/pos-coffee-c5073.appspot.com/o/Sinar%20Robusta.mp3?alt=media&token=e005ac33-8c97-4a99-8258-6dc412488440');
 
     const handleAudioEnd = () => setIsPlaying(false);
 
