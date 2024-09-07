@@ -1,62 +1,76 @@
-/* Container utama untuk grafik */
-.chart-container {
-    width: 90%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 25px;
-    background: linear-gradient(135deg, #ffffff, #f3f4f6);
-    border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.chart-container:hover {
-    transform: scale(1.02); /* Sedikit memperbesar saat dihover */
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
-}
-
-/* Heading grafik */
-h2 {
+.legend-container {
+    display: flex;
+    flex-direction: column; /* Ubah menjadi column untuk menyusun secara vertikal */
+    align-items: flex-start;
+    margin-top: 20px;
+  }
+  
+  .legend-card {
+    display: flex;
+    align-items: center;
+    margin: 5px 0; /* Jarak antar card */
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    width: 100%; /* Lebar card mengikuti container */
+    max-width: 300px; /* Maksimal lebar card */
+  }
+  
+  .legend-color {
+    width: 20px;
+    height: 20px;
+    border-radius: 5px;
+    margin-right: 10px;
+  }
+  
+  .legend-label {
+    font-size: 1rem;
+    color: #333;
+  }
+  
+  /* Heading grafik */
+  h2 {
     text-align: center;
     font-size: 2rem;
     color: #222831;
     margin-bottom: 30px;
     font-family: 'Poppins', sans-serif;
     letter-spacing: 1.5px;
-}
-
-/* ChartJS canvas style */
-canvas {
+  }
+  
+  /* ChartJS canvas style */
+  canvas {
     border-radius: 10px;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-}
-
-/* Responsif untuk layar besar */
-@media (min-width: 1024px) {
+  }
+  
+  /* Responsif untuk layar besar */
+  @media (min-width: 1024px) {
     .chart-container {
-        padding: 40px;
+      padding: 40px;
     }
-
+  
     h2 {
-        font-size: 2.4rem;
+      font-size: 2.4rem;
     }
-}
-
-/* Responsif untuk perangkat mobile */
-@media (max-width: 767px) {
+  }
+  
+  /* Responsif untuk perangkat mobile */
+  @media (max-width: 767px) {
     .chart-container {
-        width: 100%;
-        padding: 15px;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+      width: 100%;
+      padding: 15px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
     }
-
+  
     h2 {
-        font-size: 1.7rem;
+      font-size: 1.7rem;
     }
-}
-
-/* Tampilan untuk pesan loading */
-.loading-container {
+  }
+  
+  /* Tampilan untuk pesan loading */
+  .loading-container {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -64,9 +78,9 @@ canvas {
     font-size: 1.8rem;
     font-family: 'Roboto', sans-serif;
     color: #444;
-}
-
-.loading-spinner {
+  }
+  
+  .loading-spinner {
     margin-left: 10px;
     border: 4px solid rgba(0, 0, 0, 0.1);
     border-top: 4px solid #222831;
@@ -74,19 +88,19 @@ canvas {
     width: 30px;
     height: 30px;
     animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
+  }
+  
+  @keyframes spin {
     0% {
-        transform: rotate(0deg);
+      transform: rotate(0deg);
     }
     100% {
-        transform: rotate(360deg);
+      transform: rotate(360deg);
     }
-}
-
-/* Popup notifikasi */
-.notification-popup {
+  }
+  
+  /* Popup notifikasi */
+  .notification-popup {
     position: fixed;
     top: 15px;
     right: 15px;
@@ -96,37 +110,38 @@ canvas {
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     z-index: 1000;
     animation: fadeIn 0.5s ease-in-out;
-}
-
-.notification-popup h2 {
+  }
+  
+  .notification-popup h2 {
     margin: 0;
     font-size: 1.5rem;
     font-family: 'Poppins', sans-serif;
     color: #222831;
-}
-
-.notification-popup p {
+  }
+  
+  .notification-popup p {
     font-size: 1.2rem;
     margin: 5px 0;
     color: #333;
-}
-
-@keyframes fadeIn {
+  }
+  
+  @keyframes fadeIn {
     from {
-        opacity: 0;
-        transform: translateY(-10px);
+      opacity: 0;
+      transform: translateY(-10px);
     }
     to {
-        opacity: 1;
-        transform: translateY(0);
+      opacity: 1;
+      transform: translateY(0);
     }
-}
-
-/* Responsif untuk popup notifikasi di mobile */
-@media (max-width: 767px) {
+  }
+  
+  /* Responsif untuk popup notifikasi di mobile */
+  @media (max-width: 767px) {
     .notification-popup {
-        width: 85%;
-        right: 7.5%;
-        top: 10px;
+      width: 85%;
+      right: 7.5%;
+      top: 10px;
     }
-}
+  }
+  
