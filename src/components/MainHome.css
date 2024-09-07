@@ -351,5 +351,20 @@
     font-size: 18px; /* ukuran bisa diubah sesuai keinginan */
   }
 
+  .blue-button {
+    background-color: #007BFF;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+.blue-button:hover {
+    background-color: #0056b3;
+}
+
 
 

@@ -17,6 +17,7 @@ import { auth } from './firebase/firebase';
 import { requestForToken, onMessageListener } from './firebase/fcm';
 import { useUser } from './context/UserContext'; // Import the useUser hook
 import Ica from './components/Ica';
+import ChartPrice from './components/ChartPrice';
 import './App.css';
 
 const App = () => {
@@ -139,6 +140,7 @@ const App = () => {
           <Route path="/register" element={<Register />} />
           <Route path="/akun/:userId" element={<Akun />} />
           <Route path="/ica" element={<Ica />} />
+          <Route path="/chartprice" element={<ChartPrice />} /> 
         </Routes>
 
         {notification.title && (

@@ -117,8 +117,11 @@ const Home = () => {
             scrollContainerRef.current.scrollBy({ left: 300, behavior: 'smooth' });
         }
     };
-    
 
+    const handleChartPriceClick = () => {
+        navigate('/chartPrice');
+    };
+    
     return (
         <div className="home-container">
             <h2 className="home-title">Sinar Robusta</h2>
@@ -205,6 +208,9 @@ const Home = () => {
                 </div>
                 <button className="scroll-button right" onClick={scrollRight}>&#10095;</button>
             </div>
+             <button className="blue-button" onClick={handleChartPriceClick}>
+                    Lihat Chart
+                </button>
             <div className="centered-image-container">
                 <img
                     src="https://firebasestorage.googleapis.com/v0/b/pos-coffee-c5073.appspot.com/o/ICA.png?alt=media&token=d9e0db40-a278-4d14-bf49-6960fe5dc91e"
