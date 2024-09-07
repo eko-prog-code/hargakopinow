@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { getDatabase, ref, onValue } from 'firebase/database';
 import { Bar } from 'react-chartjs-2';
-import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend as ChartLegend } from 'chart.js'; // Import dengan alias
+import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend as ChartLegend } from 'chart.js';
 import './ChartPrice.css';
 
 // Register chart.js components
@@ -9,24 +9,25 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, ChartLe
 
 const ChartPrice = () => {
   const [chartData, setChartData] = useState(null);
+  const [loading, setLoading] = useState(true); // State untuk menangani loading
 
   // Define colors for the bars
   const colors = [
-    'rgba(255, 99, 132, 0.2)', // Merah
-    'rgba(54, 162, 235, 0.2)', // Biru
-    'rgba(75, 192, 192, 0.2)', // Hijau
-    'rgba(153, 102, 255, 0.2)', // Ungu
-    'rgba(255, 159, 64, 0.2)', // Oranye
-    'rgba(255, 206, 86, 0.2)', // Kuning
+    'rgba(255, 99, 132, 0.2)',
+    'rgba(54, 162, 235, 0.2)',
+    'rgba(75, 192, 192, 0.2)',
+    'rgba(153, 102, 255, 0.2)',
+    'rgba(255, 159, 64, 0.2)',
+    'rgba(255, 206, 86, 0.2)',
   ];
 
   const borderColor = [
-    'rgba(255, 99, 132, 1)', // Border Merah
-    'rgba(54, 162, 235, 1)', // Border Biru
-    'rgba(75, 192, 192, 1)', // Border Hijau
-    'rgba(153, 102, 255, 1)', // Border Ungu
-    'rgba(255, 159, 64, 1)', // Border Oranye
-    'rgba(255, 206, 86, 1)', // Border Kuning
+    'rgba(255, 99, 132, 1)',
+    'rgba(54, 162, 235, 1)',
+    'rgba(75, 192, 192, 1)',
+    'rgba(153, 102, 255, 1)',
+    'rgba(255, 159, 64, 1)',
+    'rgba(255, 206, 86, 1)',
   ];
 
   useEffect(() => {
@@ -36,13 +37,10 @@ const ChartPrice = () => {
 
       onValue(priceRef, (snapshot) => {
         const data = snapshot.val();
-        const labels = [];
-        const datasets = [];
-
         const priceMap = {};
 
-        Object.values(data).forEach((item, index) => {
-          const price = parseInt(item.harga.replace(/[^0-9]/g, '')); // Mengambil harga dalam bentuk angka
+        Object.values(data).forEach((item) => {
+          const price = parseInt(item.harga.replace(/[^0-9]/g, ''));
           const toko = item.toko;
 
           if (!priceMap[toko]) {
@@ -53,26 +51,39 @@ const ChartPrice = () => {
         const tempLabels = Object.keys(priceMap);
         const tempData = tempLabels.map(label => priceMap[label]);
 
-        const tempDatasets = [{
-          label: 'Harga',
-          data: tempData,
-          backgroundColor: tempLabels.map((_, index) => colors[index % colors.length]),
-          borderColor: tempLabels.map((_, index) => borderColor[index % borderColor.length]),
-          borderWidth: 1,
-        }];
-
         setChartData({
           labels: tempLabels,
-          datasets: tempDatasets,
+          datasets: [
+            {
+              label: 'Harga',
+              data: tempData,
+              backgroundColor: tempLabels.map((_, index) => colors[index % colors.length]),
+              borderColor: tempLabels.map((_, index) => borderColor[index % borderColor.length]),
+              borderWidth: 1,
+            },
+          ],
         });
+
+        setLoading(false); // Set loading menjadi false setelah data berhasil diambil
       });
     };
 
     fetchData();
   }, []);
 
-  if (!chartData) {
-    return <p>Loading...</p>;
+  // Tampilkan animasi loading jika data belum tersedia
+  if (loading) {
+    return (
+      <div className="loading-container">
+        <video
+          src="https://firebasestorage.googleapis.com/v0/b/medlink-3efcf.appspot.com/o/loading-icon%2Fj9JiPlC6B0.webm?alt=media&token=2800b2f3-7098-47d5-9c82-5f9280750f5f"
+          autoPlay
+          loop
+          muted
+          className="loading-video"
+        ></video>
+      </div>
+    );
   }
 
   return (
@@ -84,7 +95,7 @@ const ChartPrice = () => {
           responsive: true,
           plugins: {
             legend: {
-              display: false, // Sembunyikan legend default
+              display: false,
             },
             title: {
               display: true,
@@ -94,14 +105,14 @@ const ChartPrice = () => {
           scales: {
             x: {
               beginAtZero: true,
-              display: false, // Sembunyikan nama toko di bawah sumbu X
+              display: false,
             },
             y: {
               beginAtZero: false,
               ticks: {
-                stepSize: 20000, // Kelipatan harga setiap 20.000
+                stepSize: 20000,
                 callback: function (value) {
-                  return 'Rp ' + value.toLocaleString(); // Format angka dengan "Rp"
+                  return 'Rp ' + value.toLocaleString();
                 },
               },
             },

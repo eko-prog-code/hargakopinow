@@ -1,8 +1,7 @@
-// App.js
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCoffee } from '@fortawesome/free-solid-svg-icons';
+import { faCoffee, faPlay, faPause } from '@fortawesome/free-solid-svg-icons';
 import { Sheet } from 'react-modal-sheet';
 import Home from './components/Home';
 import Detail from './components/Detail';
@@ -25,6 +24,36 @@ const App = () => {
   const [loading, setLoading] = useState(true);
   const [notification, setNotification] = useState({ title: '', body: '' });
   const [isSheetOpen, setIsSheetOpen] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const audioRef = useRef(null);
+
+  useEffect(() => {
+    // Initialize the audio and store it in a ref
+    audioRef.current = new Audio('https://firebasestorage.googleapis.com/v0/b/pos-coffee-c5073.appspot.com/o/Robusta.mp3?alt=media&token=eeb153a6-18b8-4e1e-a04f-5df9d193164d');
+
+    const handleAudioEnd = () => setIsPlaying(false);
+
+    // Add event listener to reset play state when the audio ends
+    audioRef.current.addEventListener('ended', handleAudioEnd);
+
+    return () => {
+      // Cleanup: remove event listener and stop the audio when component unmounts
+      audioRef.current.removeEventListener('ended', handleAudioEnd);
+      audioRef.current.pause();
+      audioRef.current = null;
+    };
+  }, []);
+
+  const toggleAudio = () => {
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause();
+      } else {
+        audioRef.current.play().catch((error) => console.error('Failed to play audio:', error));
+      }
+      setIsPlaying(!isPlaying);
+    }
+  };
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -73,10 +102,17 @@ const App = () => {
   return (
     <Router>
       <div className="app-container">
+        {/* Menu Icon */}
         <button className="menu-icon" onClick={() => setIsSheetOpen(true)}>
           <FontAwesomeIcon icon={faCoffee} />
         </button>
 
+        {/* Play/Pause Audio Control */}
+        <button className="audio-control-icon" onClick={toggleAudio}>
+          <FontAwesomeIcon icon={isPlaying ? faPause : faPlay} />
+        </button>
+
+        {/* Bottom Sheet */}
         <Sheet
           isOpen={isSheetOpen}
           onClose={() => setIsSheetOpen(false)}
@@ -126,6 +162,7 @@ const App = () => {
           </Sheet.Container>
         </Sheet>
 
+        {/* Routes */}
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/detail" element={<Detail />} />
@@ -133,16 +170,14 @@ const App = () => {
           <Route path="/income" element={<Income />} />
           <Route path="/outcome" element={<Outcome />} />
           <Route path="/community" element={<Community />} />
-          <Route
-            path="/login"
-            element={user ? <Navigate to="/" replace /> : <Login />}
-          />
+          <Route path="/login" element={user ? <Navigate to="/" replace /> : <Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/akun/:userId" element={<Akun />} />
           <Route path="/ica" element={<Ica />} />
-          <Route path="/chartprice" element={<ChartPrice />} /> 
+          <Route path="/chartprice" element={<ChartPrice />} />
         </Routes>
 
+        {/* Notification Popup */}
         {notification.title && (
           <div className="notification-popup">
             <h2>{notification.title}</h2>

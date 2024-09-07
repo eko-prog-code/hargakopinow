@@ -170,3 +170,26 @@ body {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
+.audio-control-icon {
+  position: fixed;
+  bottom: 30px;
+  left: 20px;
+  background-color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 10px;
+  height: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: background-color 0.3s;
+  z-index: 9999;
+}
+
+.audio-control-icon:hover {
+  background-color: #f0f0f0;
+}
+
+
