@@ -17,6 +17,7 @@ import { requestForToken, onMessageListener } from './firebase/fcm';
 import { useUser } from './context/UserContext'; // Import the useUser hook
 import Ica from './components/Ica';
 import ChartPrice from './components/ChartPrice';
+import Desain from './components/Desain';
 import './App.css';
 
 const App = () => {
@@ -175,6 +176,7 @@ const App = () => {
           <Route path="/akun/:userId" element={<Akun />} />
           <Route path="/ica" element={<Ica />} />
           <Route path="/chartprice" element={<ChartPrice />} />
+          <Route path="/desain" element={<Desain />} />
         </Routes>
 
         {/* Notification Popup */}

@@ -7,6 +7,16 @@ body {
   padding: 0;
 }
 
+.cashflow-icon {
+  position: fixed;
+  bottom: 80px;
+  right: 16px;
+  width: 50px; /* Adjust size as needed */
+  height: 50px; /* Adjust size as needed */
+  cursor: pointer;
+  z-index: 9999; /* Ensure it appears on top of other elements */
+}
+
 .container {
   max-width: 1200px;
   margin: 0 auto;
@@ -160,10 +170,10 @@ h1 {
 
 .cashflow-icon {
   position: fixed;
-  bottom: 20px;
-  right: 20px;
+  bottom: 80px;
+  right: 16px;
   width: 50px; /* Adjust size as needed */
   height: 50px; /* Adjust size as needed */
   cursor: pointer;
-  z-index: 1000; /* Ensure it appears on top of other elements */
+  z-index: 9999; /* Ensure it appears on top of other elements */
 }

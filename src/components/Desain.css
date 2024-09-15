@@ -1,0 +1,226 @@
+/* Kontainer utama untuk komponen Desain */
+.desain-container {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Form untuk memasukkan informasi produk */
+.desain-form label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.desain-form input[type="text"],
+.desain-form input[type="date"],
+.desain-form input[type="file"] {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.desain-form input[type="file"] {
+    padding: 5px;
+}
+
+.desain-form input:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+/* Kontainer untuk preview desain produk */
+.preview-container {
+    max-height: 1100px; /* Atur tinggi maksimal */
+    overflow: hidden; /* Agar konten yang melebihi tinggi tidak ditampilkan */
+    margin-top: 20px;
+    padding: 20px;
+    position: relative;
+    border: 2px solid #007bff;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+}
+
+
+/* Gambar banner utama */
+.banner-image {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    opacity: 0.8;
+}
+
+/* Konten dinamis yang ditampilkan di atas banner */
+.overlay-content {
+    position: relative; /* Pastikan ini jika perlu */
+    text-align: left; /* Agar teks mengikuti margin */
+    top: 20%;
+    left: 10%;
+    right: 10%;
+    color: #fff;
+    text-align: left;
+    padding: 10px;
+}
+
+/* Gaya untuk nama brand */
+.overlay-content h2 {
+    font-size: 34px;
+    font-weight: bold;
+    margin-left: 216px;
+    top: -998px;
+    position: absolute;
+}
+
+/* Gaya untuk logo brand */
+.logo-image {
+    position: absolute;  /* Memungkinkan pengaturan posisi yang spesifik */
+    top: -1050px;  /* Atur sesuai dengan kebutuhan untuk memposisikan logo di atas */
+    left: 77%;
+    transform: translateX(-50%); /* Untuk memastikan logo berada di tengah secara horizontal */
+    width: 170px;
+    height: 170px;
+    z-index: 10;  /* Memastikan logo berada di atas elemen lainnya */
+}
+
+
+/* Gaya untuk teks informasi produk */
+/* CSS untuk mengatur setiap elemen <p> agar bisa diatur posisinya */
+
+/* Umum untuk semua <p> dalam konten dinamis */
+.overlay-content p {
+    font-size: 16px;
+    margin: 5px 0;
+    padding: 5px;
+    border-radius: 5px;
+    position: relative; /* Pastikan ini jika perlu */
+    text-align: left;
+}
+
+/* Mengatur letak dan ukuran setiap informasi secara individual */
+
+
+.tagline {
+    font-size: 34px;
+    font-weight: bold;
+    margin-left: 350px; /* Geser sedikit ke kanan */
+    top: -950px; /* Sesuaikan ini jika masih ingin menggunakan absolute */
+    position: relative; /* Bisa gunakan relative jika absolute tidak diperlukan */
+    color: #060606; /* Warna hitam */
+}
+
+/* Tagline */
+.tagline {
+    font-size: 34px;
+    font-weight: bold;
+    margin-left: 350px; /* Geser sedikit ke kanan */
+    top: -950px; /* Sesuaikan ini jika masih ingin menggunakan absolute */
+    position: relative; /* Bisa gunakan relative jika absolute tidak diperlukan */
+    color: #060606; /* Warna hitam */
+}
+
+/* Asal Kopi */
+.asalKopi {
+    font-size: 42px;
+    margin-left: 24px; /* Geser sedikit ke kanan */
+    top: -845px; /* Sesuaikan ini jika masih ingin menggunakan absolute */
+    color: #060606; /* Warna hitam */
+}
+
+/* Unique Proses */
+.uniqueProses {
+    text-align: left;
+    margin-left: 320px;
+    margin-top: -50px; /* Perbarui margin-top agar teks turun 120px */
+    font-size: 32px;
+    color: #060606; /* Warna hitam */
+}
+
+.flavorKopi {
+    text-align: left;
+    margin-left: 320px;
+    margin-top: -50px; /* Perbarui margin-top agar teks turun 120px */
+    font-size: 32px;
+    color: #060606; /* Warna hitam */
+}
+
+.varietasKopi {
+    text-align: left;
+    margin-left: 320px;
+    margin-top: -50px; /* Perbarui margin-top agar teks turun 120px */
+    font-size: 32px;
+    color: #060606; /* Warna hitam */
+}
+
+
+/* Roast Profile */
+.roastProfile {
+    text-align: left;
+    margin-left: 320px;
+    margin-top: -50px; /* Perbarui margin-top agar teks turun 120px */
+    font-size: 32px;
+    color: #060606; /* Warna hitam */
+}
+
+
+/* Informasi Nutrisi */
+.informasiNutrisi {
+    text-align: left;
+    margin-left: 320px;
+    margin-top: -50px; /* Perbarui margin-top agar teks turun 120px */
+    font-size: 32px;
+    color: #060606; /* Warna hitam */
+}
+
+.overlay-item {
+    position: absolute;
+    font-size: 18px;
+}
+
+/* Expired Date */
+.expiredDate {
+    text-align: left;
+    margin-left: 320px;
+    margin-top: -50px; /* Perbarui margin-top agar teks turun 120px */
+    font-size: 32px;
+    color: #ff5722; /* Warna oranye untuk expired date */
+}
+
+/* Informasi Kontak */
+.informasiKontak {
+    text-align: left;
+    margin-left: 320px;
+    margin-top: -50px; /* Perbarui margin-top agar teks turun 120px */
+    font-size: 32px;
+    color: #4caf50; /* Warna hijau untuk informasi kontak */
+}
+
+/* Volume */
+.volume {
+    text-align: left;
+    margin-left: 320px;
+    margin-top: -50px; /* Perbarui margin-top agar teks turun 120px */
+    font-size: 32px;
+    text-transform: uppercase;
+}
+
+
+/* Tombol download desain */
+.download-button {
+    margin-top: 20px;
+    padding: 12px 24px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.download-button:hover {
+    background-color: #218838;
+}

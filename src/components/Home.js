@@ -121,6 +121,10 @@ const Home = () => {
     const handleChartPriceClick = () => {
         navigate('/chartPrice');
     };
+
+    const handleDesignClick = () => {
+        navigate('/desain'); // Navigate to Desain.js page
+    };
     
     return (
         <div className="home-container">
@@ -192,6 +196,9 @@ const Home = () => {
             <div className="sumber-informasi">
                 <p>Sumber Informasi: <a href="https://id.investing.com/commodities/london-coffee" target="_blank" rel="noopener noreferrer">Investing-Commodities</a></p>
             </div>
+            <button className="green-button" onClick={handleDesignClick}>
+                Buat Desain Produk
+            </button>
             <div className="shopee-prices-container">
                 <h3>Harga Kopi di Shopee:</h3>
                 <button className="scroll-button left" onClick={scrollLeft}>&#10094;</button>

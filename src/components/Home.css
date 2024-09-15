@@ -159,8 +159,8 @@ thead {
 
 .fixed-bottom-right {
   position: fixed;
-  bottom: 20px;
-  right: 20px;
+  bottom: 80px;
+  right: 12px;
   width: 70px; /* Adjust as necessary */
   height: 70px; /* Adjust as necessary */
   cursor: pointer;
@@ -235,4 +235,19 @@ thead {
   text-align: left;
   margin-bottom: 10px; /* atau sesuai preferensimu */
   font-size: 18px; /* ukuran bisa diubah sesuai keinginan */
+}
+
+.green-button {
+  background-color: green;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.green-button:hover {
+  background-color: darkgreen;
 }
