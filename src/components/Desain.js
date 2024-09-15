@@ -206,7 +206,7 @@ const Desain = () => {
                         <div className="overlay-item" style={{ top: '-567px', left: '66px', color: 'chocolate', fontSize: '26px' }}>
                             {formData.roastProfile}
                         </div>
-                        <div className="overlay-item" style={{ top: '-527px', left: '170px', fontSize: '26px', color: 'green' }}>
+                        <div className="overlay-item" style={{ top: '-524px', left: '170px', fontSize: '26px', color: 'green' }}>
                             {formData.informasiNutrisi}
                         </div>
                     </div>
