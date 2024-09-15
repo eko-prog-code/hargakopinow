@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import { toPng } from 'html-to-image'; // Menggunakan toPng dari html-to-image
 import download from 'downloadjs'; // Menggunakan downloadjs
 import './Desain.css';
+import bannerKopi from './../assets/banerkopi.png';
 
 const Desain = () => {
     const [formData, setFormData] = useState({
@@ -162,7 +163,7 @@ const Desain = () => {
             {/* Preview container */}
             <div className="preview-container" ref={previewRef}>
                 <img
-                    src="https://firebasestorage.googleapis.com/v0/b/pos-coffee-c5073.appspot.com/o/banerkopi.png?alt=media&token=fa9631b6-1b95-44d1-9b7e-678ab163311b"
+                    src={bannerKopi} // Gunakan gambar dari assets
                     alt="Banner Kopi"
                     className="banner-image"
                 />
