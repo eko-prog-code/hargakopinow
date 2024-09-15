@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
-import { toPng } from 'html-to-image'; // Menggunakan toPng dari html-to-image
-import download from 'downloadjs'; // Menggunakan downloadjs
+import html2canvas from 'html2canvas'; // Import html2canvas
+import download from 'downloadjs'; // Import downloadjs untuk download gambar
 import './Desain.css';
 import bannerKopi from './../assets/banerkopi.png';
 
@@ -11,7 +11,7 @@ const Desain = () => {
         tagline: '',
         asalKopi: '',
         uniqueProses: '',
-        flavorNote: '', // New field for Flavor Note
+        flavorNote: '',
         varietasKopi: '',
         roastProfile: '',
         informasiNutrisi: '',
@@ -29,15 +29,16 @@ const Desain = () => {
         });
     };
 
-    // Fungsi untuk menangkap gambar dari HTML dan mendownloadnya
+    // Fungsi untuk menangkap gambar dari HTML menggunakan html2canvas dan mendownloadnya
     const handleDownload = () => {
         if (!formData.namaBrand) {
             alert("Nama Brand harus diisi untuk mendownload desain.");
             return;
         }
 
-        toPng(previewRef.current)
-            .then((dataUrl) => {
+        html2canvas(previewRef.current)
+            .then((canvas) => {
+                const dataUrl = canvas.toDataURL('image/png');
                 download(dataUrl, `${formData.namaBrand}.png`);
             })
             .catch((error) => {
@@ -96,7 +97,7 @@ const Desain = () => {
                     />
                 </label>
                 <label>
-                    Flavor Note: {/* New input for Flavor Note */}
+                    Flavor Note:
                     <input
                         type="text"
                         name="flavorNote"
