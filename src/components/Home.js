@@ -83,7 +83,8 @@ const Home = () => {
                 const response = await fetch("https://open.er-api.com/v6/latest/USD");
                 const data = await response.json();
                 if (data && data.rates && data.rates.IDR) {
-                    setExchangeRate(data.rates.IDR);
+                    const roundedExchangeRate = Math.floor(data.rates.IDR); // Bulatkan ke bilangan bulat
+                    setExchangeRate(roundedExchangeRate);
                 }
             } catch (error) {
                 console.error("Error fetching exchange rate:", error);
