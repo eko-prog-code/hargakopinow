@@ -5,15 +5,17 @@ import { getDatabase, ref as databaseRef, onValue } from 'firebase/database';
 import Community from './Community';
 import { FaRegEye, FaRegEyeSlash, FaTimes } from 'react-icons/fa';
 import './MainHome.css';
-import { FaPhone } from 'react-icons/fa'; 
+import { FaPhone } from 'react-icons/fa';
 
 const Home = () => {
     const [hargaRobustaIDR, setHargaRobustaIDR] = useState(null);
     const [hargaRobustaDunia, setHargaRobustaDunia] = useState(null);
-    const [usdIdr, setUsdIdr] = useState(null);
+    const [exchangeRate, setExchangeRate] = useState(null);
     const [shopeePrices, setShopeePrices] = useState([]);
     const [currentUser, setCurrentUser] = useState(null);
     const [fullName, setFullName] = useState('');
+    const [isLoading, setIsLoading] = useState(true);
+    const [showExchangeRate, setShowExchangeRate] = useState(false);
     const navigate = useNavigate();
     const scrollContainerRef = useRef(null);
     const [password, setPassword] = useState('');
@@ -28,7 +30,7 @@ const Home = () => {
     const handleSubmitPassword = () => {
         if (password === 'ethan') {
             setShowModal(false);
-            navigate(nextPage); // Navigate to the next page based on the image clicked
+            navigate(nextPage);
         } else {
             setError('Password salah, coba lagi.');
         }
@@ -58,7 +60,7 @@ const Home = () => {
                 fetchFullName(user.uid);
             } else {
                 setCurrentUser(null);
-                navigate('/'); // Redirects to login if no user is authenticated
+                navigate('/');
             }
         });
         return () => unsubscribe();
@@ -76,17 +78,32 @@ const Home = () => {
     };
 
     useEffect(() => {
+        const fetchExchangeRate = async () => {
+            try {
+                const response = await fetch("https://open.er-api.com/v6/latest/USD");
+                const data = await response.json();
+                if (data && data.rates && data.rates.IDR) {
+                    setExchangeRate(data.rates.IDR);
+                }
+            } catch (error) {
+                console.error("Error fetching exchange rate:", error);
+            }
+        };
+
+        fetchExchangeRate();
+    }, []);
+
+    useEffect(() => {
         const database = getDatabase();
         const robustaRef = databaseRef(database, 'RealTimeRobusta');
 
         const unsubscribeRobusta = onValue(robustaRef, (snapshot) => {
             const data = snapshot.val();
             if (data) {
-                const { hargaRobustaDunia, UsdIdr } = data;
-                const newHargaRobustaIDR = hargaRobustaDunia * UsdIdr;
+                const { hargaRobustaDunia } = data;
+                const newHargaRobustaIDR = hargaRobustaDunia * exchangeRate;
 
                 setHargaRobustaDunia((prev) => (prev !== hargaRobustaDunia ? hargaRobustaDunia : prev));
-                setUsdIdr((prev) => (prev !== UsdIdr ? UsdIdr : prev));
                 setHargaRobustaIDR((prev) => (prev !== newHargaRobustaIDR ? newHargaRobustaIDR : prev));
             }
         });
@@ -104,6 +121,24 @@ const Home = () => {
             unsubscribeRobusta();
             unsubscribeShopee();
         };
+    }, [exchangeRate]);
+
+    useEffect(() => {
+        const cycleAnimation = () => {
+            setIsLoading(true);
+            setShowExchangeRate(false);
+
+            setTimeout(() => {
+                setIsLoading(false);
+                setShowExchangeRate(true);
+
+                setTimeout(() => {
+                    cycleAnimation();
+                }, 6000); // Tampilkan nilai tukar selama 6 detik
+            }, 4000); // Tampilkan spinner selama 4 detik
+        };
+
+        cycleAnimation();
     }, []);
 
     const scrollLeft = () => {
@@ -123,9 +158,9 @@ const Home = () => {
     };
 
     const handleDesignClick = () => {
-        navigate('/desain'); // Navigate to Desain.js page
+        navigate('/desain');
     };
-    
+
     return (
         <div className="home-container">
             <h2 className="home-title">Sinar Robusta</h2>
@@ -183,11 +218,16 @@ const Home = () => {
             )}
             <div className="harga-robusta-container">
                 <h3>Robusta London Berjangka:</h3>
-                {hargaRobustaIDR ? (
+                {isLoading ? (
+                    <div className="spinner-container">
+                        <div className="spinner"></div>
+                        <p>Sedang mencari data realtime USD to IDR...</p>
+                    </div>
+                ) : showExchangeRate && hargaRobustaIDR ? (
                     <>
                         <p>{`Rp ${hargaRobustaIDR.toLocaleString('id-ID')} /kg`}</p>
                         <p>Rumus: Harga Robusta Dunia (USD/ton) x Nilai Tukar USD ke IDR</p>
-                        <p>{`Rumus: ${hargaRobustaDunia} (USD/ton) x ${usdIdr} (USD to IDR)`}</p>
+                        <p>{`Rumus: ${hargaRobustaDunia} (USD/ton) x ${exchangeRate} (USD to IDR)`}</p>
                     </>
                 ) : (
                     <p>Loading...</p>
