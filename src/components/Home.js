@@ -101,7 +101,7 @@ const Home = () => {
             const data = snapshot.val();
             if (data) {
                 const { hargaRobustaDunia } = data;
-                const newHargaRobustaIDR = hargaRobustaDunia * exchangeRate;
+                const newHargaRobustaIDR = Math.floor(hargaRobustaDunia * exchangeRate); // Hilangkan desimal
 
                 setHargaRobustaDunia((prev) => (prev !== hargaRobustaDunia ? hargaRobustaDunia : prev));
                 setHargaRobustaIDR((prev) => (prev !== newHargaRobustaIDR ? newHargaRobustaIDR : prev));
